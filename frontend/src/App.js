@@ -25,6 +25,14 @@ const App = () => {
   }, [])
   console.log('render', persons.length, 'persons')
 
+  const handleNameChange = (event) => {
+    setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
+  }
+
   const updatePerson = (existingPerson) => {
     if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
       const updatedPerson = {...existingPerson, number:newNumber}
@@ -69,6 +77,7 @@ const App = () => {
         })
     }
     setNewName('')
+    setNewNumber('')
   }
 
   const deletePerson = (name, id) => {
@@ -104,7 +113,7 @@ const App = () => {
       <Notification message = {error} type="error"/>
       <Filter onchange={handleFilter}/>
       <h2>add a new</h2>
-      <PersonForm submit={addNewPerson} nameChange={(e) => setNewName(e.target.value)} numberChange={(e) => setNewNumber(e.target.value)}/>
+      <PersonForm submit={addNewPerson} nameChange={handleNameChange} nameValue = {newName} numberValue = {newNumber} numberChange={handleNumberChange}/>
       <h2>Numbers</h2>
       {personsToShow.map(person => 
         <p key={person.id}>{person.name} {person.number} <button onClick={() => deletePerson(person.name, person.id)}>delete</button>
